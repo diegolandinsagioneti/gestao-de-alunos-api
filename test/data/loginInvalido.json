@@ -1,0 +1,12 @@
+[
+  {
+    "testTitle": "deve retornar 401 quando a senha informada for inválida",
+    "email": "admin@escola.com",
+    "senha": "senha-incorreta"
+  },
+  {
+    "testTitle": "deve retornar 401 quando o e-mail informado for inválido",
+    "email": "admin-invalido@escola.com",
+    "senha": "admin123"
+  }
+]

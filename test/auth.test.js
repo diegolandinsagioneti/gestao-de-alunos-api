@@ -1,7 +1,12 @@
 import request from 'supertest';
 import { expect } from 'chai';
 import mongoose from 'mongoose';
+import fs from 'fs';
 import app from '../src/app.js';
+
+const dadosLoginInvalido = JSON.parse(
+  fs.readFileSync('./test/data/loginInvalido.json', 'utf-8')
+);
 
 describe('POST /api/auth/login', () => {
   after(async () => {
@@ -11,18 +16,28 @@ describe('POST /api/auth/login', () => {
   it('deve retornar 200 e um token quando o admin informar e-mail e senha corretos', async () => {
     const resposta = await request(app)
       .post('/api/auth/login')
-      .send({ email: 'admin@escola.com', senha: 'admin123' });
+      .send({
+        email: 'admin@escola.com',
+        senha: 'admin123'
+      });
 
     expect(resposta.status).to.equal(200);
     expect(resposta.body).to.have.property('token');
   });
 
-  it('deve retornar 401 quando a senha informada for inválida', async () => {
-    const resposta = await request(app)
-      .post('/api/auth/login')
-      .send({ email: 'admin@escola.com', senha: 'senha-incorreta' });
+  dadosLoginInvalido.forEach((dados) => {
 
-    expect(resposta.status).to.equal(401);
-    expect(resposta.body.error).to.equal('E-mail ou senha inválidos.');
+    it(dados.testTitle, async () => {
+      const resposta = await request(app)
+        .post('/api/auth/login')
+        .send({
+          email: dados.email,
+          senha: dados.senha
+        });
+
+      expect(resposta.status).to.equal(401);
+      expect(resposta.body.error).to.equal('E-mail ou senha inválidos.');
+    });
+
   });
 });
