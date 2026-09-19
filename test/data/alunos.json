@@ -1,0 +1,9 @@
+[
+  {
+    "nome": "Aluno Automacao",
+    "senha": "123456",
+    "disciplinaId": "disciplina-matematica",
+    "tituloTrabalho": "Lista de Exercicios Automatizada",
+    "descricaoTrabalho": "Trabalho cadastrado pelo teste automatizado."
+  }
+]
